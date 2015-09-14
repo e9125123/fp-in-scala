@@ -1,5 +1,6 @@
 import org.scalatest._
 import Chapter2._
+
 /**
  * Tests for Chapter2 exercises
  */
