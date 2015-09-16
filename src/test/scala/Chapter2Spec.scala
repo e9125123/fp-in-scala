@@ -4,7 +4,7 @@ import Chapter2._
 /**
  * Tests for Chapter2 exercises
  */
-class Chapter2Spec extends FlatSpec with Matchers  {
+class Chapter2Spec extends UnitSpec {
 
   "Exercise 2.1" should "define fib function" in {
     fib(0) should be (0)
