@@ -1,5 +1,4 @@
 import Chapter3._
-import org.scalatest._
 
 /**
  * Tests for Chapter2 exercises
@@ -31,5 +30,77 @@ class Chapter3Spec extends  UnitSpec {
   "Exercise 3.2" should "implement tail" in {
     List.tail(Nil) should be (Nil)
     List.tail(List(1,2,3,4,5)) should be (List(2,3,4,5))
+  }
+
+  "Exercise 3.3" should "implement the function setHead for replacing the first element\nof a List with a different value." in {
+    val l = List(1,2,3)
+    List.setHead(2, l) should be (List(2,2,3))
+  }
+
+  "Exercise 3.4" should "Generalize tail to the function drop" in {
+    val l = List(1,2,3)
+    List.drop(2, l) should be (List(3))
+  }
+
+  "Exercise 3.5" should "Implement dropWhile" in {
+    val l: List[Int] = List(1,2,3,4,5,5)
+    val pred: (Int) => Boolean = (i: Int) => i <= 3
+    List.dropWhile(l, pred) should be (List(4,5,5))
+  }
+
+  "Exercise 3.6" should "all but the last element of a List " in {
+    val l = List(1,2,3)
+    List.init(l) should be (List(1,2))
+  }
+
+  "Exercise 3.7" should "short circuit" in {
+    val l = List(0.0,2.0,3.0)
+    List.product2(l) should be (0.0)
+  }
+
+  /**
+   * See what happens when you pass Nil and Cons themselves to foldRight , like this:
+   * foldRight(List(1,2,3), Nil:List[Int])(Cons(_,_)) . 10 What do you think this
+   * says about the relationship between foldRight and the data constructors of List ?
+   */
+  "Exercise 3.8" should "you pass Nil and Cons themselves to foldRight" in {
+    val l = List.foldRight(List(1,2,3), Nil:List[Int])(Cons(_,_))
+    println(l)
+  }
+
+  "Exercise 3.9" should "define length" in {
+    val l = List(1,2,3)
+    List.length(l) should be (3)
+  }
+
+  "Exercise 3.10" should "define tail recursive foldLeft" in {
+    val l = List(1,2,3)
+    List.foldLeft(l, 0)(_ + _) should be (6)
+  }
+
+  "Exercise 3.11" should "define functions using foldLeft" in {
+    // Write sum , product , and a function to compute the length of a list using foldLeft.
+    val l = List(1,2,3,4,5)
+
+    val sum = List.foldLeft(l, 0)(_ + _)
+    sum should be (15)
+
+    val product = List.foldLeft(l, 1)(_ * _)
+    product should be (120)
+
+    val length = List.foldLeft(l, 0)((acc: Int, c: Int) => acc + 1)
+    length should be (5)
+  }
+
+  "Exercise 3.12" should "returns the reverse of a list (given List(1,2,3) it returns\nList(3,2,1) )" in {
+    // Write a function that returns the reverse of a list (given List(1,2,3) it returns
+    // List(3,2,1) ). See if you can write it using a fold.
+    val l = List(1,2,3)
+    val r = List.foldLeft(l, Nil: List[Int])((acc, c) => Cons(c, acc))
+    r should be (List(3,2,1))
+  }
+
+  "Exercise 3.13" should "foldLeft in terms of foldRight ? How about the other way\naround?" in {
+
   }
 }
