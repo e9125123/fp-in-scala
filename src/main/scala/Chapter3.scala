@@ -122,5 +122,15 @@ object Chapter3 {
       case Nil => z
       case Cons(h, t) => foldLeft(t, f(z, h))(f)
     }
+
+    def foldRightViaFoldLeft[A,B](l: List[A], z: B)(f: (A,B) => B): B =
+      foldLeft(l, (b:B) => b)((g,a) => b => g(f(a,b)))(z)
+
+    def foldLeftViaFoldRight[A,B](l: List[A], z: B)(f: (B,A) => B): B =
+      foldRight(l, (b:B) => b)((a,g) => b => g(f(b,a)))(z)
+
+    def append[A](l: List[A], a: List[A]): List[A] = {
+      foldRight(l, a)(Cons(_,_))
+    }
   }
 }

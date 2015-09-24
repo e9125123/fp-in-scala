@@ -100,7 +100,17 @@ class Chapter3Spec extends  UnitSpec {
     r should be (List(3,2,1))
   }
 
-  "Exercise 3.13" should "foldLeft in terms of foldRight ? How about the other way\naround?" in {
+  "Exercise 3.13" should "foldLeft in terms of foldRight ? How about the other way around?" in {
+    val l = List(1,2,3)
+    val sum = List.foldRight(l, 0)(_ + _)
+    val sum1 = List.foldRightViaFoldLeft(l, 0)(_ + _)
+    sum should be (sum1)
+  }
 
+  "Exercise 3.14" should "Implement append in terms of either foldLeft or foldRight ." in {
+    val l = List(1,2,3)
+    val l1 = List(1,2,3)
+    val a = List.append(l, l1)
+    a should be (List(1,2,3,1,2,3))
   }
 }
