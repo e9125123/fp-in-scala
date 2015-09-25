@@ -105,7 +105,7 @@ object Chapter3 {
      * Compute the length of a list using foldRight .
      * def length[A](as: List[A]): Int
      */
-    def length[A](as: List[A]): Int = foldRight(as, 0)((_, c: Int) => c +1)
+    def length[A](as: List[A]): Int = foldRight(as, 0)((_, c: Int) => c + 1)
 
     def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B = as match {
       case Nil => z
@@ -118,19 +118,44 @@ object Chapter3 {
      * list-recursion function, foldLeft , that is tail-recursive, using the techniques we discussed in the previous chapter.
      */
     @tailrec
-    def foldLeft[A,B](as: List[A], z: B)(f: (B, A) => B): B = as match {
+    def foldLeft[A, B](as: List[A], z: B)(f: (B, A) => B): B = as match {
       case Nil => z
       case Cons(h, t) => foldLeft(t, f(z, h))(f)
     }
 
-    def foldRightViaFoldLeft[A,B](l: List[A], z: B)(f: (A,B) => B): B =
-      foldLeft(l, (b:B) => b)((g,a) => b => g(f(a,b)))(z)
+    def foldRightViaFoldLeft[A, B](l: List[A], z: B)(f: (A, B) => B): B =
+      foldLeft(l, (b: B) => b)((g, a) => b => g(f(a, b)))(z)
 
-    def foldLeftViaFoldRight[A,B](l: List[A], z: B)(f: (B,A) => B): B =
-      foldRight(l, (b:B) => b)((a,g) => b => g(f(b,a)))(z)
+    def foldLeftViaFoldRight[A, B](l: List[A], z: B)(f: (B, A) => B): B =
+      foldRight(l, (b: B) => b)((a, g) => b => g(f(b, a)))(z)
 
     def append[A](l: List[A], a: List[A]): List[A] = {
-      foldRight(l, a)(Cons(_,_))
+      foldRight(l, a)(Cons(_, _))
+    }
+
+    def flatMap[A](l: List[List[A]]): List[A] = {
+      foldLeft(l, Nil: List[A])(append(_, _))
+      //foldRight(l, Nil: List[A])(append(_,_))
+    }
+
+    def mapPlusOne(l: List[Int]): List[Int] = {
+      foldRight(l, Nil: List[Int])((a: Int, l: List[Int]) => Cons(a + 1, l))
+    }
+
+    def mapDoubleToString(l: List[Double]): List[String] = {
+      foldRight(l, Nil: List[String])((a: Double, l: List[String]) => Cons(a.toString, l))
+    }
+
+    def map[A, B](as: List[A])(f: A => B): List[B] = {
+      foldRight(as, Nil: List[B])((a: A, l: List[B]) => Cons(f(a), l))
+    }
+
+    def filter[A](as: List[A])(f: A => Boolean): List[A] = {
+      foldRight(as, Nil: List[A])((a: A, l: List[A]) => {
+        if (f(a)) Cons(a, l)
+        else l
+      })
     }
   }
+
 }
