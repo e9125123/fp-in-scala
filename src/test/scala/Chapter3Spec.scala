@@ -65,7 +65,7 @@ class Chapter3Spec extends UnitSpec {
    */
   "Exercise 3.8" should "you pass Nil and Cons themselves to foldRight" in {
     val l = List.foldRight(List(1, 2, 3), Nil: List[Int])(Cons(_, _))
-    println(l)
+    //println(l)
   }
 
   "Exercise 3.9" should "define length" in {
@@ -116,28 +116,50 @@ class Chapter3Spec extends UnitSpec {
 
   "Exercise 3.15" should "implement flatMap" in {
     val l = List(List(1, 2, 3), List(4, 5, 6), List(7, 8, 9))
-    List.flatMap(l) should be(List(1, 2, 3, 4, 5, 6, 7, 8, 9))
+    List.flatMap_(l) should be(List(1, 2, 3, 4, 5, 6, 7, 8, 9))
   }
 
   "Exercise 3.16" should "implement map" in {
     //Write a function that transforms a list of integers by adding 1 to each element.
     //(Reminder: this should be a pure function that returns a new List !)
     val l = List(1, 2, 3)
-    List.mapPlusOne(l) should be (List(2,3,4))
+    List.mapPlusOne(l) should be(List(2, 3, 4))
   }
 
   "Exercise 3.17" should "map double to string" in {
     val l = List(1.1, 2.2, 3.3)
-    List.mapDoubleToString(l) should be (List("1.1", "2.2", "3.3"))
+    List.mapDoubleToString(l) should be(List("1.1", "2.2", "3.3"))
   }
 
   "Exercise 3.18" should "implement map" in {
     val l = List(1.1, 2.2, 3.3)
-    List.map(l)(_.toString) should be (List("1.1", "2.2", "3.3"))
+    List.map(l)(_.toString) should be(List("1.1", "2.2", "3.3"))
   }
 
   "Exercise 3.19" should "implement filter" in {
     val l = List(1, 2, 3)
-    List.filter(l)(_>2) should be (List(3))
+    List.filter(l)(_ > 2) should be(List(3))
+  }
+
+  "Exercise 3.20" should "implement flatMap" in {
+    List.flatMap(List(1, 2, 3))(i => List(i, i)) should be(List(1, 1, 2, 2, 3, 3))
+  }
+
+  "Exercise 3.21" should "implement filter with flatMap" in {
+    val l = List(1, 2, 3)
+    List.filterViaFlatMap(l)(_ > 2) should be(List(3))
+  }
+
+  "Exercise 3.22" should "implement zipWithIndex for int functions" in {
+    val l = List(1, 2, 3)
+    val l1= List(4,5,6)
+    List.zipWithIndexInt(l, l1) should be(List(5,7,9))
+  }
+
+  "Exercise 3.23" should "implement zipWith" in {
+    val l = List(1, 2, 3)
+    val l1= List(4,5,6)
+    List.zipWith(l, l1)(_+_) should be(List(5,7,9))
   }
 }
+

@@ -133,7 +133,7 @@ object Chapter3 {
       foldRight(l, a)(Cons(_, _))
     }
 
-    def flatMap[A](l: List[List[A]]): List[A] = {
+    def flatMap_[A](l: List[List[A]]): List[A] = {
       foldLeft(l, Nil: List[A])(append(_, _))
       //foldRight(l, Nil: List[A])(append(_,_))
     }
@@ -155,6 +155,39 @@ object Chapter3 {
         if (f(a)) Cons(a, l)
         else l
       })
+    }
+
+    def flatMap[A, B](as: List[A])(f: A => List[B]): List[B] = {
+      //foldLeft(map(as)(f), Nil: List[B])(append(_, _))
+      foldRight(map(as)(f), Nil: List[B])(append(_, _))
+    }
+
+    def filterViaFlatMap[A](l: List[A])(f: A => Boolean): List[A] = {
+      flatMap(l)(a => if (f(a)) List(a) else Nil)
+    }
+
+    def zipWithIndexInt(l: List[Int], i: List[Int]): List[Int] = {
+      l match {
+        case Nil => Nil
+        case Cons(h, t) => {
+          i match {
+            case Nil => Nil
+            case Cons(ih, it) => Cons(h + ih, zipWithIndexInt(t, it))
+          }
+        }
+      }
+    }
+
+    def zipWith[A, B, C](l: List[A], i: List[B])(f: (A, B) => C): List[C] = {
+      l match {
+        case Nil => Nil
+        case Cons(h, t) => {
+          i match {
+            case Nil => Nil
+            case Cons(ih, it) => Cons(f(h, ih), zipWith(t, it)(f))
+          }
+        }
+      }
     }
   }
 
