@@ -189,6 +189,68 @@ object Chapter3 {
         }
       }
     }
+
+    def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = {
+      sup match {
+        case Nil => sub match {
+          case Nil => true
+          case _ => false
+        }
+        case Cons(h, t) => sub match {
+          case Nil => true
+          case Cons(sh, st) => {
+            if (h == sh)
+              hasSubsequence(t, st) || hasSubsequence(t, sub)
+            else
+              hasSubsequence(t, sub)
+          }
+        }
+      }
+    }
+
+  }
+
+  sealed trait Tree[+A]
+
+  case class Leaf[A](value: A) extends Tree[A]
+
+  case class Branch[A](left: Tree[A], right: Tree[A]) extends Tree[A]
+
+  object Tree {
+    def size[A](t: Tree[A]): Int = {
+      def size1(c: Int, t1: Tree[A]): Int = {
+        t1 match {
+          case Leaf(_) => c+1
+          case Branch(l, r) => 1 + size1(c, l) + size1(c, r)
+        }
+      }
+      size1(0, t)
+    }
+
+    def maximum(t: Tree[Int]): Int = {
+      def m(c: Int, t1: Tree[Int]): Int = {
+        t1 match {
+          case Leaf(v) => c max v
+          case Branch(l, r) => c max (maximum(l) max maximum(r))
+        }
+      }
+      m(0, t)
+    }
+
+    def depth(t: Tree[Int]): Int = {
+      def m(c: Int, t1: Tree[Int]): Int = {
+        t1 match {
+          case Leaf(v) => c
+          case Branch(l, r) => c + (depth(l) max depth(r))
+        }
+      }
+      m(1, t)
+    }
+
+    def map[A, B](t: Tree[A])(f: A => B): Tree[B] = t match {
+      case Leaf(a) => Leaf(f(a))
+      case Branch(l, r) => Branch(map(l)(f), map(r)(f))
+    }
   }
 
 }

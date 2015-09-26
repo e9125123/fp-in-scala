@@ -161,5 +161,38 @@ class Chapter3Spec extends UnitSpec {
     val l1= List(4,5,6)
     List.zipWith(l, l1)(_+_) should be(List(5,7,9))
   }
-}
 
+  "Exercise 3.24" should "implement hasSubsequence" in  {
+    val l = List(1, 2, 3)
+    val l1= List(2,3)
+    List.hasSubsequence(l, l1) should be(true)
+  }
+
+  "Exercise 3.25" should "implement Tree.size" in  {
+    val t = Leaf(1)
+    val t1 = Branch(Leaf(1), Leaf(1))
+    Tree.size(t) should be(1)
+    Tree.size(t1) should be(3)
+  }
+
+  "Exercise 3.26" should "implement Tree.maximum" in  {
+    val t = Leaf(1)
+    val t1 = Branch(Leaf(1), Leaf(3))
+    Tree.maximum(t) should be(1)
+    Tree.maximum(t1) should be(3)
+  }
+
+  "Exercise 3.27" should "implement Tree.depth" in  {
+    val t = Leaf(1)
+    val t1 = Branch(Leaf(1), Branch(Leaf(1), Leaf(3)))
+    Tree.depth(t) should be(1)
+    Tree.depth(t1) should be(3)
+  }
+
+  "Exercise 3.28" should "implement Tree.map" in  {
+    val t = Leaf(1)
+    val t1 = Branch(Leaf(1), Branch(Leaf(1), Leaf(3)))
+    Tree.map(t)(_ + 1) should be(Leaf(2))
+    Tree.map(t1)(_ + 1) should be(Branch(Leaf(2), Branch(Leaf(2), Leaf(4))))
+  }
+}
