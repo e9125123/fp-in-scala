@@ -195,4 +195,21 @@ class Chapter3Spec extends UnitSpec {
     Tree.map(t)(_ + 1) should be(Leaf(2))
     Tree.map(t1)(_ + 1) should be(Branch(Leaf(2), Branch(Leaf(2), Leaf(4))))
   }
+
+  "Exercise 3.29" should "implement Tree.fold" in  {
+    val t = Leaf(1)
+    val t1 = Branch(Leaf(1), Branch(Leaf(1), Leaf(3)))
+
+    Tree.mapViaFold(t)(_ + 1) should be(Leaf(2))
+    Tree.mapViaFold(t1)(_ + 1) should be(Branch(Leaf(2), Branch(Leaf(2), Leaf(4))))
+
+    Tree.depthViaFold(t) should be(1)
+    Tree.depthViaFold(t1) should be(3)
+
+    Tree.maximumViaFold(t) should be(1)
+    Tree.maximumViaFold(t1) should be(3)
+
+    Tree.sizeViaFold(t) should be(1)
+    Tree.sizeViaFold(t1) should be(5)
+  }
 }
