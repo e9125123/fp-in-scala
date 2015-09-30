@@ -1,7 +1,7 @@
 import Chapter3._
 
 /**
- * Tests for Chapter2 exercises
+ * Tests for Chapter 3 exercises
  */
 class Chapter3Spec extends UnitSpec {
 
