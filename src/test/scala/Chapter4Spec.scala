@@ -26,4 +26,20 @@ class Chapter4Spec extends UnitSpec {
     s.getOrElse(2) should be(3)
     n.getOrElse(2) should be(2)
   }
+
+  "Exercise 4.1" should "implement orElse" in {
+    val s = Some(3)
+    val n = None
+
+    s.orElse(s) should be(s)
+    n.orElse(s) should be(s)
+  }
+
+  "Exercise 4.1" should "implement filter" in {
+    val s = Some(3)
+    val n = None
+
+    s.filter((i: Int) => i > 2) should be(s)
+    s.filter((i: Int) => i < 2) should be(None)
+  }
 }
