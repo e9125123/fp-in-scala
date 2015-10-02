@@ -34,4 +34,40 @@ object Chapter4 {
   case class Some[+A](get: A) extends Option[A]
 
   case object None extends Option[Nothing]
+
+  def mean(xs: Seq[Double]): Option[Double] =
+    if (xs.isEmpty) None
+    else Some(xs.sum / xs.length)
+
+  def variance1(xs: Seq[Double]): Option[Double] = xs match {
+    case Seq() => None
+    case _ => {
+      val m = xs.sum / xs.length
+      val ms = xs.map((d: Double) => Math.pow(d - m, 2))
+      Some(ms.sum / ms.size)
+    }
+  }
+
+  def variance(xs: Seq[Double]): Option[Double] = mean(xs) flatMap (m => mean(xs.map(x => math.pow(x - m, 2))))
+
+  def map2[A,B,C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] = {
+    a flatMap (aa => b map (bb => f(aa, bb)))
+  }
+
+  def lift[A,B](f: A => B): Option[A] => Option[B] = _ map f
+
+  def sequence[A](a: List[Option[A]]): Option[List[A]] = a match {
+    case Nil => Some(Nil)
+    case h :: t => h flatMap (hh => sequence(t) map (hh :: _))
+  }
+
+  def sequence_1[A](a: List[Option[A]]): Option[List[A]] =
+    a.foldRight[Option[List[A]]](Some(Nil))((x,y) => map2(x,y)(_ :: _))
+
+  def traverse[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] = a match {
+    case Nil => Some(Nil)
+    case h::t => map2(f(h), traverse(t)(f))(_ :: _)
+  }
+
+  def sequence_2[A](a: List[Option[A]]): Option[List[A]] = traverse(a)((aa: Option[A]) => aa)
 }
