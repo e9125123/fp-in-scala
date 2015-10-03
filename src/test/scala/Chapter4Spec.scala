@@ -12,8 +12,8 @@ class Chapter4Spec extends UnitSpec {
 
   "Exercise 4.1" should "implement flatMao" in {
     val s = Some(3)
-    def f(i: Int): Option[Int]  = if (i>2) Some(i) else None
-    def g(i: Int) = if (i<2) Some(i) else None
+    def f(i: Int): Option[Int] = if (i > 2) Some(i) else None
+    def g(i: Int) = if (i < 2) Some(i) else None
 
     s.flatMap(f) should be(Some(3))
     s.flatMap(g) should be(None)
@@ -47,18 +47,18 @@ class Chapter4Spec extends UnitSpec {
     val s = Seq(1.0, 2.0, 3.0)
     val n: Seq[Double] = Seq()
 
-    variance(s) should be(Some(2.0/3.0))
+    variance(s) should be(Some(2.0 / 3.0))
     variance(n) should be(None)
   }
 
   "Exercise 4.4" should "implement sequence" in {
-    sequence(List(Some(1), Some(2))) should be(Some(List(1,2)))
-    sequence_1(List(Some(1), Some(2))) should be(Some(List(1,2)))
-    sequence_2(List(Some(1), Some(2))) should be(Some(List(1,2)))
+    sequence(List(Some(1), Some(2))) should be(Some(List(1, 2)))
+    sequence_1(List(Some(1), Some(2))) should be(Some(List(1, 2)))
+    sequence_2(List(Some(1), Some(2))) should be(Some(List(1, 2)))
   }
 
   "Exercise 4.5" should "implement traverse" in {
-    def f(i: Int): Option[Int] = if (i<2) None else Some(i)
+    def f(i: Int): Option[Int] = if (i < 2) None else Some(i)
     traverse(List(1, 2))(f) should be(None)
   }
 
@@ -68,5 +68,6 @@ class Chapter4Spec extends UnitSpec {
 
     r1.map(_ => "is an int") should be(Right("is an int"))
     r1.flatMap(x => Right(x)) should be(Right(1))
+    l1.orElse(r1) should be(r1)
   }
 }
