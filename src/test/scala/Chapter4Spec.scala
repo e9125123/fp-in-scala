@@ -61,4 +61,12 @@ class Chapter4Spec extends UnitSpec {
     def f(i: Int): Option[Int] = if (i<2) None else Some(i)
     traverse(List(1, 2))(f) should be(None)
   }
+
+  "Exercise 4.6" should "implement Either" in {
+    val r1 = Right(1)
+    val l1 = Left("left 1")
+
+    r1.map(_ => "is an int") should be(Right("is an int"))
+    r1.flatMap(x => Right(x)) should be(Right(1))
+  }
 }

@@ -10,7 +10,7 @@ object Chapter4 {
       case Some(a) => Some(f(a))
     }
 
-    def flatMap[B](f: A => Option[B]): Option[B]= this match {
+    def flatMap[B](f: A => Option[B]): Option[B] = this match {
       case None => None
       case Some(a) => f(a)
     }
@@ -27,7 +27,9 @@ object Chapter4 {
 
     def filter(f: A => Boolean): Option[A] = this match {
       case None => None
-      case Some(a) => {if (f(a)) this else None}
+      case Some(a) => {
+        if (f(a)) this else None
+      }
     }
   }
 
@@ -50,11 +52,11 @@ object Chapter4 {
 
   def variance(xs: Seq[Double]): Option[Double] = mean(xs) flatMap (m => mean(xs.map(x => math.pow(x - m, 2))))
 
-  def map2[A,B,C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] = {
+  def map2[A, B, C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] = {
     a flatMap (aa => b map (bb => f(aa, bb)))
   }
 
-  def lift[A,B](f: A => B): Option[A] => Option[B] = _ map f
+  def lift[A, B](f: A => B): Option[A] => Option[B] = _ map f
 
   def sequence[A](a: List[Option[A]]): Option[List[A]] = a match {
     case Nil => Some(Nil)
@@ -62,12 +64,34 @@ object Chapter4 {
   }
 
   def sequence_1[A](a: List[Option[A]]): Option[List[A]] =
-    a.foldRight[Option[List[A]]](Some(Nil))((x,y) => map2(x,y)(_ :: _))
+    a.foldRight[Option[List[A]]](Some(Nil))((x, y) => map2(x, y)(_ :: _))
 
   def traverse[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] = a match {
     case Nil => Some(Nil)
-    case h::t => map2(f(h), traverse(t)(f))(_ :: _)
+    case h :: t => map2(f(h), traverse(t)(f))(_ :: _)
   }
 
   def sequence_2[A](a: List[Option[A]]): Option[List[A]] = traverse(a)((aa: Option[A]) => aa)
+
+  sealed trait Either[+E, +A] {
+
+    def map[B](f: A => B): Either[E, B] = this match {
+      case Right(a) => Right(f(a))
+      case Left(e) => Left(e)
+    }
+
+    def flatMap[EE >: E, B](f: A => Either[EE, B]): Either[EE, B] = this match {
+      case Left(e) => Left(e)
+      case Right(a) => f(a)
+    }
+
+    def orElse[EE >: E, B >: A](b: => Either[EE, B]): Either[EE, B] = ???
+
+    def map2[EE >: E, B, C](b: Either[EE, B])(f: (A, B) => C): Either[EE, C] = ???
+  }
+
+  case class Left[+E](value: E) extends Either[E, Nothing]
+
+  case class Right[+A](value: A) extends Either[Nothing, A]
+
 }
