@@ -84,6 +84,8 @@ class Chapter4Spec extends UnitSpec {
   }
 
   "Exercise 4.8" should "accumulate errors for validation" in {
-
+    mkPerson("p1", 10) should be(Right(Person(Name("p1"), Age(10))))
+    mkPerson("", 10) should be(Left("Name is empty."))
+    mkPerson("a", -1) should be(Left("Age is out of range."))
   }
 }
