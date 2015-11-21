@@ -1,8 +1,8 @@
 import Chapter4._
 
 /**
- * Tests for exercises
- */
+  * Tests for exercises
+  */
 class Chapter4Spec extends UnitSpec {
 
   "Exercise 4.1" should "implement mao" in {
@@ -63,29 +63,39 @@ class Chapter4Spec extends UnitSpec {
   }
 
   "Exercise 4.6" should "implement Either" in {
-    val r1 : Either[String, Int] = Right(1)
+    val r1: Either[String, Int] = Right(1)
     val l1 = Left("left 1")
 
     r1.map(_ => "is an int") should be(Right("is an int"))
     r1.flatMap(x => Right(x)) should be(Right(1))
     l1.orElse(r1) should be(r1)
-    r1.map2(l1: Either[String, Int])((_, _)=>"mapped") should be(Left("left 1"))
+    r1.map2(l1: Either[String, Int])((_, _) => "mapped") should be(Left("left 1"))
   }
 
   "Exercise 4.7" should "implement traverse and sequence" in {
-    val r1 : Either[String, Int] = Right(1)
-    val l1 : Either[String, Int] = Left("left 1")
+    val r1: Either[String, Int] = Right(1)
+    val l1: Either[String, Int] = Left("left 1")
 
     val es: List[Either[String, Int]] = List(Right(1), Right(2))
     val es1 = Left("error") :: es
 
-    Either.sequence(es) should be(Right(List(1,2)))
+    Either.sequence(es) should be(Right(List(1, 2)))
     Either.sequence(es1) should be(Left("error"))
   }
 
+  /**
+    * In this implementation, map2 is only able to report one error, even if both the name
+    * and the age are invalid. What would you need to change in order to report both errors?
+    * Would you change map2 or the signature of mkPerson ? Or could you create a new data
+    * type that captures this requirement better than Either does, with some additional
+    * structure? How would orElse , traverse , and sequence behave differently for that
+    * data type?
+    */
   "Exercise 4.8" should "accumulate errors for validation" in {
     mkPerson("p1", 10) should be(Right(Person(Name("p1"), Age(10))))
     mkPerson("", 10) should be(Left("Name is empty."))
     mkPerson("a", -1) should be(Left("Age is out of range."))
+
+    fail("TODO")
   }
 }
