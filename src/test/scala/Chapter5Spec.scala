@@ -10,8 +10,8 @@ class Chapter5Spec extends UnitSpec {
     * you look at it in the REPL . You can convert to the regular List type in the standard
     * library.
     */
-  "Exercise 5.1" should "implement mao" in {
-    val s = Stream({}, {})
-    s.toList  should be(List({}, {}))
+  "Exercise 5.1" should "implement toList" in {
+    val s = Stream(1, 2, 3)
+    s.toList  should be(List(1, 2, 3))
   }
 }

@@ -1,10 +1,16 @@
 /**
  * Code to go with chapter 5 of 'Functional Programming in Scala'
  */
+
+import scala.collection.immutable._
+
 object Chapter5 {
 
   sealed trait Stream[+A] {
-    def toList: List[A] = ???
+    def toList: List[A] = this match {
+      case Empty => List()
+      case Cons(h, t) => t().toList.::(h())
+    }
 
     def headOption: Option[A] = this match {
       case Empty => None
