@@ -28,4 +28,14 @@ class Chapter5Spec extends UnitSpec {
 //    s.take(2) should be(Stream(1, 2))
 //    s.drop(2) should be(Stream(3, 4))
   }
+
+  /**
+    * Write the function takeWhile for returning all starting elements of a Stream that
+    * match the given predicate.
+    * def takeWhile(p: A => Boolean): Stream[A]
+    */
+  "Exercise 5.3" should "implement takeWhile" in {
+    val s = Stream(1, 2, 3, 4)
+    s.takeWhile(_<3).toList should be(List(1, 2))
+  }
 }
