@@ -24,7 +24,7 @@ class Chapter5Spec extends UnitSpec {
     s.take(2).toList  should be(List(1, 2))
     s.drop(2).toList  should be(List(3, 4))
 
-    // TODO: should also work for stream equal
+    // TODO: should also work for stream equal??
 //    s.take(2) should be(Stream(1, 2))
 //    s.drop(2) should be(Stream(3, 4))
   }

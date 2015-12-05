@@ -1,8 +1,6 @@
 /**
  * Code to go with chapter 5 of 'Functional Programming in Scala'
  */
-
-import scala.collection.immutable.Stream.cons
 import scala.collection.immutable._
 
 object Chapter5 {
@@ -23,9 +21,7 @@ object Chapter5 {
       else {
         this match {
           case Empty => Empty
-          case Cons(h, t) => {
-            Cons(h, () => t().take(i - 1))
-          }
+          case Cons(h, t) => Cons(h, () => t().take(i - 1))
         }
       }
     }
@@ -35,9 +31,7 @@ object Chapter5 {
       else {
         this match {
           case Empty => Empty
-          case Cons(h, t) => {
-            t().drop(i-1)
-          }
+          case Cons(h, t) => t().drop(i-1)
         }
       }
     }
